@@ -18,7 +18,8 @@ module.exports = app => {
         maxAge: 600000 // 600 * 1000 ms === 60 min
       }, 
 	  store: MongoStore.create({
-		mongoUrl: process.env.MONGODB_URI})
+		mongoUrl: process.env.DB_REMOTE,
+	  })
     })
   );
 };
