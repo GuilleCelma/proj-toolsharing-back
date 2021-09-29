@@ -141,4 +141,26 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
 });
 
 
+/* router.post(`/authenticate/google`) This handles POST requests to /api/v1/auth/google , verifying and decoding the token, pulling out the three pieces of information we want to store, performs an upsert operation on our database, and returns the retrieved user as JSON. 
+
+const { OAuth2Client } = require('google-auth-library')
+const client = new OAuth2Client(process.env.CLIENT_ID)server.post("/api/v1/auth/google", async (req, res) => {    const { token }  = req.body    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.CLIENT_ID
+    });
+    const { name, email, picture } = ticket.getPayload();        const user = await db.user.upsert({ 
+        where: { email: email },
+        update: { name, picture },
+        create: { name, email, picture }
+    })   
+
+    req.session.userId = user.id
+
+    res.status(201)
+    res.json(user)
+})
+
+*/
+
+
 module.exports = router;
