@@ -7,20 +7,14 @@ const { isAuthenticated } = require("./middleware/jwt.middleware"); // <== IMPOR
 
 const app = express();
 require("./config")(app);
-
+require('./config/session.config')(app);
 
 // 👇 MIDDLEWARE MISSING
 const allRoutes = require("./routes");
 app.use("/api", allRoutes);
 
 const authRouter = require("./routes/auth.routes");
-app.use("/api/auth", authRouter);
-
-const projectRouter = require("./routes/project.routes");
-app.use("/api", isAuthenticated, projectRouter);            // <== UPDATE
-
-const taskRouter = require("./routes/task.routes");
-app.use("/api",isAuthenticated, taskRouter);            // <== UPDATE
+app.use("/", authRouter);
 
 
 app.use((req, res, next) => {
