@@ -79,9 +79,6 @@ router.post('/signup', (req, res, next) => {
 // POST  /auth/login - Verifies email and password and returns a JWT
 router.post('/login', (req, res, next) => {
 
-
- console.log("hola")
-
   const { username, password } = req.body;
 
   // Check if email or password are provided as empty string 
@@ -151,8 +148,6 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
 
 
    router.post("/google", async (req, res) => {  
-
-      console.log("he llegado aqui")
 
       const {OAuth2Client} = require('google-auth-library');
       const client = new OAuth2Client(CLIENT_ID);
