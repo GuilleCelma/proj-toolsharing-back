@@ -16,8 +16,8 @@ router.post('/signup', (req, res, next) => {
 
   const {username, password, email, address, birthdate, sex, tel } = req.body //<------------REACT CONTROLED FORM INFO STORED----------------->
 
-  console.log("req.body:    ", req.body)
-  console.log("signup")
+/*   console.log("req.body:    ", req.body)
+  console.log("signup") */
   // Check if email or password or name are provided as empty string 
   if (email === '' || password === '' || username === '') {
     res.status(400).json({ message: "Provide email, password and name" });
