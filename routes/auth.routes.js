@@ -20,21 +20,21 @@ router.post('/signup', (req, res, next) => {
   console.log("signup")
   // Check if email or password or name are provided as empty string 
   if (email === '' || password === '' || username === '') {
-    res.status(401).json({ message: "Provide email, password and name" });
+    res.status(400).json({ message: "Provide email, password and name" });
     return;
   }
 
   // Use regex to validate the email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!emailRegex.test(email)) {
-    res.status(402).json({ message: 'Provide a valid email address.' });
+    res.status(400).json({ message: 'Provide a valid email address.' });
     return;
   }
   
   // Use regex to validate the password format
   const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}/;
   if (!passwordRegex.test(password)) {
-    res.status(403).json({ message: 'Password must have at least 4 characters and contain at least one number, one lowercase and one uppercase letter.' });
+    res.status(400).json({ message: 'Password must have at least 4 characters and contain at least one number, one lowercase and one uppercase letter.' });
     return;
   }
 
@@ -44,7 +44,7 @@ router.post('/signup', (req, res, next) => {
     .then((foundUser) => {
       // If the user with the same email already exists, send an error response
       if (foundUser) {
-        res.status(406).json({ message: "User already exists." });
+        res.status(400).json({ message: "User already exists." });
         return;
       }
 
@@ -65,7 +65,7 @@ router.post('/signup', (req, res, next) => {
       const user = { email, name, _id };
 
       // Send a json response containing the user object
-      res.status(201).json({ user: user });
+      res.status(200).json({ user: user });
     })
 
 
@@ -78,10 +78,12 @@ router.post('/signup', (req, res, next) => {
 
 // POST  /auth/login - Verifies email and password and returns a JWT
 router.post('/login', (req, res, next) => {
-  console.log("login")
-  console.log('SESSION =====> ', req.session)
+
+
+ console.log("hola")
+
   const { username, password } = req.body;
-console.log(req.session.currentUser)
+
   // Check if email or password are provided as empty string 
   if (username === '' || password === '') {
     res.status(400).json({ message: "Provide email and password." });
@@ -94,7 +96,7 @@ console.log(req.session.currentUser)
     
       if (!foundUser) {
         // If the user is not found, send an error response
-        res.status(401).json({ message: "User not found." })
+        res.status(400).json({ message: "User not found." })
         return;
       }
 
@@ -120,7 +122,7 @@ console.log(req.session.currentUser)
         res.status(200).json({ authToken: authToken });
       }
       else {
-        res.status(401).json({ message: "Unable to authenticate the user" });
+        res.status(400).json({ message: "Unable to authenticate the user" });
       }
 
     })
@@ -141,26 +143,65 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
 });
 
 
-/* router.post(`/authenticate/google`) This handles POST requests to /api/v1/auth/google , verifying and decoding the token, pulling out the three pieces of information we want to store, performs an upsert operation on our database, and returns the retrieved user as JSON. 
+ 
 
-const { OAuth2Client } = require('google-auth-library')
-const client = new OAuth2Client(process.env.CLIENT_ID)server.post("/api/v1/auth/google", async (req, res) => {    const { token }  = req.body    const ticket = await client.verifyIdToken({
-        idToken: token,
-        audience: process.env.CLIENT_ID
-    });
-    const { name, email, picture } = ticket.getPayload();        const user = await db.user.upsert({ 
-        where: { email: email },
-        update: { name, picture },
-        create: { name, email, picture }
-    })   
 
-    req.session.userId = user.id
+   const { OAuth2Client } = require('google-auth-library')
+   const client = new OAuth2Client(process.env.CLIENT_ID)
 
-    res.status(201)
-    res.json(user)
-})
 
-*/
+   router.post("/google", async (req, res) => {  
+
+      console.log("he llegado aqui")
+
+      const {OAuth2Client} = require('google-auth-library');
+      const client = new OAuth2Client(CLIENT_ID);
+      async function verify() {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+            // Or, if multiple clients access the backend:
+            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        });
+        const payload = ticket.getPayload();
+        const userid = payload['sub'];
+        // If request specified a G Suite domain:
+        // const domain = payload['hd'];
+      }
+      verify().catch(console.error);
+
+
+
+
+/* 
+      const { token }  = req.body
+
+      const ticket = await client.verifyIdToken({
+           idToken: token,
+           audience: process.env.CLIENT_ID
+       });
+       const { name, email, picture } = ticket.getPayload();        
+       let username = name;
+       let objecToUpdate = {
+         username: name,
+         email: email,
+         imgUrl: picture
+       };
+       console.log(objectToUpdate)
+       const user = await User.findOneAndUpdate((name) , objectToUpdate)   
+   
+       req.session.userId = user.id
+   
+       res.status(201)
+       res.json(user)
+    */
+
+ }) //This handles POST requests to /api/v1/auth/google , verifying and decoding the token, pulling out the three pieces of information we want to store, performs an upsert operation on our database, and returns the retrieved user as JSON. 
+
+
+
+
+
 
 
 module.exports = router;
