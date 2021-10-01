@@ -3,6 +3,16 @@ const router = express.Router();
 const User = require("../models/User.model")
 const mongoose = require("mongoose")
 
+//<-----------------ROUTE TO GET ALL USERS -------------------------------------------------------------------------------------------------------->
+
+router.get("/user/", (req, res) => {
+    User.find()
+    .then(userArray=>res.json(userArray))
+    .catch(err => console.log(err))
+})
+
+//<-----------------ROUTE TO GET USER BY ID -------------------------------------------------------------------------------------------------------->
+
 router.get( "/user/:id" , (req, res) =>{
 
     const {id} = req.params  //<----------------GETING ID INFO FROM URL PARAMS ------------------------------------------------------------------->
