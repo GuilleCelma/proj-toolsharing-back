@@ -11,7 +11,7 @@ router.get("/product", (req, res) => {
 	// We use .populate() method to get swap the `_id`s for the actual Review documents
 
 	Product.find ()
-		.populate ("reviews")
+		.populate ("review")
 		.then((allProjects) => res.json(allProjects))
 		.catch((err) => res.json(err))
 })
@@ -28,10 +28,12 @@ router.post("/product", (req, res) => {
 
 //<------------------RETRIEVES A ESPECIFIC PRODUCT BT ID------------------------------->
 
-router.get("/product/:productId", (req, res) => {
-	const { productId } = req.params;
+router.get("/product/:id", (req, res) => {
+	const { id } = req.params;
 
-	if (!mongoose.Types.ObjectId.isValid(projectId)) {
+	console.log("llegando: ", req.params)
+
+	if (!mongoose.Types.ObjectId.isValid(id)) {
 	  res.status(400).json({ message: "Specified id is not valid" });
 	  return;
 	}
@@ -39,9 +41,9 @@ router.get("/product/:productId", (req, res) => {
 	// Each product document has `reviews` array holding `_id`s of Review documents
 	// We use .populate() method to get swap the `_id`s for the actual Review documents
 
-	Project.findById(productId)
-	  .populate("reviews")
-	  .then((project) => res.status(200).json(project))
+	Product.findById(id)
+	  .populate("Review")
+	  .then((product) => res.status(200).json(product))
 	  .catch((error) => res.json(error));
 });
 

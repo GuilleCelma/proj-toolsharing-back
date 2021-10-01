@@ -12,12 +12,10 @@ const saltRounds = 10;
 // POST /auth/signup  - Creates a new user in the database
 router.post('/signup', (req, res, next) => {
 
-
-
   const {username, password, email, address, birthdate, sex, tel } = req.body //<------------REACT CONTROLED FORM INFO STORED----------------->
 
-  console.log("req.body:    ", req.body)
-  console.log("signup")
+/*   console.log("req.body:    ", req.body)
+  console.log("signup") */
   // Check if email or password or name are provided as empty string 
   if (email === '' || password === '' || username === '') {
     res.status(400).json({ message: "Provide email, password and name" });
@@ -79,9 +77,6 @@ router.post('/signup', (req, res, next) => {
 // POST  /auth/login - Verifies email and password and returns a JWT
 router.post('/login', (req, res, next) => {
 
-
- console.log("hola")
-
   const { username, password } = req.body;
 
   // Check if email or password are provided as empty string 
@@ -106,10 +101,10 @@ router.post('/login', (req, res, next) => {
       if (passwordCorrect) {
 
         // Deconstruct the user object to omit the password
-        const { _id, email, name } = foundUser;
+        const { _id, name } = foundUser;
         
         // Create an object that will be set as the token payload
-        const payload = { _id, email, name };
+        const payload = { _id, name };
 
         // Create and sign the token
         const authToken = jwt.sign( 
@@ -151,8 +146,6 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
 
 
    router.post("/google", async (req, res) => {  
-
-      console.log("he llegado aqui")
 
       const {OAuth2Client} = require('google-auth-library');
       const client = new OAuth2Client(CLIENT_ID);

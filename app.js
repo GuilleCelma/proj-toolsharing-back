@@ -16,8 +16,17 @@ app.use("/api", allRoutes);
 const authRouter = require("./routes/auth.routes");
 app.use("/", authRouter);
 
+
 const cloudRoutes = require("./routes/cloudinary");
 app.use("/", cloudRoutes);
+
+const userRouter = require("./routes/user-routes");
+app.use("/", userRouter);
+
+
+const productRouter = require("./routes/product-routes");
+app.use("/", productRouter);``
+
 
 
 /* app.use((req, res, next) => {
