@@ -42,7 +42,7 @@ router.get("/product/:id", (req, res) => {
 	// We use .populate() method to get swap the `_id`s for the actual Review documents
 
 	Product.findById(id)
-	  .populate("review")
+	  .populate("Review")
 	  .then((product) => res.status(200).json(product))
 	  .catch((error) => res.json(error));
 });

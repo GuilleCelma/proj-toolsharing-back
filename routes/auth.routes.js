@@ -12,8 +12,6 @@ const saltRounds = 10;
 // POST /auth/signup  - Creates a new user in the database
 router.post('/signup', (req, res, next) => {
 
-
-
   const {username, password, email, address, birthdate, sex, tel } = req.body //<------------REACT CONTROLED FORM INFO STORED----------------->
 
 /*   console.log("req.body:    ", req.body)

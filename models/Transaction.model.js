@@ -9,6 +9,7 @@ const transactionSchema = new Schema({
   ,
   date: String,
   productId: String,
+  accepted: Boolean,
     
 });
 
