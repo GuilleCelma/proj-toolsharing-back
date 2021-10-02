@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema({
   username:String,
+  fullName: String,
   password: String,
   birthdate: String,
   email: String,
@@ -9,14 +10,14 @@ const userSchema = new Schema({
     street: String,
     number: String,
     city: String,
-    postalCode: Number,
+    postalCode: String,
   },
   sex:{
     type: String,
     enum : ['Men','Women',"I prefer not to say"],
   },
   tel: Number,
-  imgUrl: String,
+  profileImg: String,
   paymentMethod: String,
   products:[{
     type: Schema.Types.ObjectId,

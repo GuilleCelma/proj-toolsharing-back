@@ -11,8 +11,9 @@ const saltRounds = 10;
 
 // POST /auth/signup  - Creates a new user in the database
 router.post('/signup', (req, res, next) => {
+  console.log("Req body :", req.body)
 
-  const {username, password, email, address, birthdate, sex, tel } = req.body //<------------REACT CONTROLED FORM INFO STORED----------------->
+  const {fullName, username, email, password, address, profileImg } = req.body //<------------REACT CONTROLED FORM INFO STORED----------------->
 
 /*   console.log("req.body:    ", req.body)
   console.log("signup") */
@@ -52,7 +53,7 @@ router.post('/signup', (req, res, next) => {
 
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then` 
-      return User.create({ password: hashedPassword, username, imgUrl, email, address, birthdate, sex, tel });
+      return User.create({ password: hashedPassword, username, profileImg, email, address, fullName});
     })
     .then((createdUser) => {
       // Deconstruct the newly created user object to omit the password
