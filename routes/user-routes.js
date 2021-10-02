@@ -28,11 +28,13 @@ router.get( "/user/:id" , (req, res) =>{
 router.put( "/user/:id", (req,res) =>{
 
     const {id} = req.params  //<----------------GETING ID INFO FROM URL PARAMS ------------------------------------------------------------------->
-    const {username, password, email, address, birthdate, sex, tel } = req.body  //<------------REACT CONTROLED FORM INFO STORED---------------->
+    const {fullName, username, password, email, address, products, birthdate, sex, tel, profileImg } = req.body  //<------------REACT CONTROLED FORM INFO STORED---------------->
 
-    User.findByIdAndUpdate(id, {username, password, email, address, birthdate, sex, tel }, {new:true})
-    .then(userUpdated => console.log(userUpdated) )
-    .catch(err => console.log(err))
+    User.findByIdAndUpdate(id, {fullName, username, password, email, address, birthdate, sex, tel, products, profileImg }, {new:true})
+    .then(userUpdated => {
+        res.json(userUpdated)
+        console.log("userupdatedback" , userUpdated) })
+    .catch(err => console.log("put error back", err))
 })
 
 
