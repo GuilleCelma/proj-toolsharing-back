@@ -5,7 +5,7 @@ const mongoose = require("mongoose")
 
 //<-----------------ROUTE TO GET ALL USERS -------------------------------------------------------------------------------------------------------->
 
-router.get("/user/", (req, res) => {
+router.get("/user", (req, res) => {
     User.find()
     .then(userArray=>res.json(userArray))
     .catch(err => console.log(err))
