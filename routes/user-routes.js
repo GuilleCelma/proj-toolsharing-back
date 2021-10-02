@@ -15,20 +15,19 @@ router.get("/user", (req, res) => {
 
 router.get( "/user/:id" , (req, res) =>{
 
-    const {id} = req.params  //<----------------GETING ID INFO FROM URL PARAMS ------------------------------------------------------------------->
-
+    const {id} = req.params  
     User.findById(id)
+    .populate ()
     .then(user => res.json(user))
     .catch(err => console.log(err))
 })
 
-
-//<-----------------ROUTE TO UPDATE USERS -------------------------------------------------------------------------------------------------------->
+//<-----------------ROUTE TO UPDATE USERS-------------------------------------------------------------------------------------------------------->
 
 router.put( "/user/:id", (req,res) =>{
 
-    const {id} = req.params  //<----------------GETING ID INFO FROM URL PARAMS ------------------------------------------------------------------->
-    const {fullName, username, password, email, address, products, birthdate, sex, tel, profileImg } = req.body  //<------------REACT CONTROLED FORM INFO STORED---------------->
+    const {id} = req.params  
+    const {fullName, username, password, email, address, products, birthdate, sex, tel, profileImg } = req.body  
 
     User.findByIdAndUpdate(id, {fullName, username, password, email, address, birthdate, sex, tel, products, profileImg }, {new:true})
     .then(userUpdated => {
@@ -38,18 +37,18 @@ router.put( "/user/:id", (req,res) =>{
 })
 
 
-//<-----------------ROUTE TO UPDATE USERS -------------------------------------------------------------------------------------------------------->
+//<-----------------ROUTE TO UPDATE USERS-------------------------------------------------------------------------------------------------------->
 
 router.delete("/user/:id", (req, res) =>{
 
-    const {id} = req.params  //<----------------GETING ID INFO FROM URL PARAMS ------------------------------------------------------------------->
+    const {id} = req.params  
 
     User.findByIdAndDelete(id)
     .then(userDeleted => console.log(userDeleted))
     .catch(err => console.log(err))
 })
 
-//<-----------------ROUTE TO ADD FAVORITES TO USERS -------------------------------------------------------------------------------------------------------->
+//<-----------------ROUTE TO ADD FAVORITES TO USERS-------------------------------------------------------------------------------------------------------->
 
 router.post("/fav/:id", (req,res) => {
     const {id} = req.params
@@ -70,6 +69,7 @@ router.post("/fav/:id", (req,res) => {
     .then(result=>console.log('result:',result))
 })
 
+//<-----------------????????????????????????????????????-------------------------------------------------------------------------------------------------------->
 
 router.put("/fav/:id", (req,res) => {
     const {id} = req.params

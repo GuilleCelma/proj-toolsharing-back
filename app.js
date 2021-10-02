@@ -1,5 +1,6 @@
 require("dotenv/config");
 require("./db");
+require("./models/index")
 const express = require("express");
 
 const { isAuthenticated } = require("./middleware/jwt.middleware"); // <== IMPORT
