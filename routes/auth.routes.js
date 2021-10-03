@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 
-const { isAuthenticated } = require('./../middleware/jwt.middleware.js');
+const { isAuthenticated } = require('../middleware/jwt.middleware.js');
 
 const router = express.Router();
 const saltRounds = 10;
@@ -192,11 +192,5 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
     */
 
  }) //This handles POST requests to /api/v1/auth/google , verifying and decoding the token, pulling out the three pieces of information we want to store, performs an upsert operation on our database, and returns the retrieved user as JSON. 
-
-
-
-
-
-
 
 module.exports = router;
