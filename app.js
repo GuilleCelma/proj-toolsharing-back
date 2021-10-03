@@ -11,13 +11,13 @@ require("./config")(app);
 
 // 👇 MIDDLEWARE MISSING
 /* const allRoutes = require("./routes");
-app.use("/api", allRoutes); */
+app.use("/api", allRoutes);  */
 
-/* const authRouter = require("./routes/auth-routes");
-app.use("/", authRouter); */
+const authRouter = require("./routes/auth-routes");
+app.use("/", authRouter); 
 
-/* const cloudRoutes = require("./routes/cloudinary-routes");
-app.use("/", cloudRoutes); */
+const cloudRoutes = require("./routes/cloudinary-routes");
+app.use("/", cloudRoutes);
 
 const userRouter = require("./routes/user-routes");
 app.use("/", userRouter);

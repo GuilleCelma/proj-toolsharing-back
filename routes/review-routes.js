@@ -7,10 +7,10 @@ const Product = require("../models/Product.model");
 
 router.get("/review/:id", (req, res) => {
     console.log("hey")
-	/* const { id } = req.params;
-    console.log ("/reviw: ", id ) */
+	const { id } = req.params;
+    console.log ("/reviw: ", id ) 
 
-/* 	Review.findById(id)
+    Review.findById(id)
 	    .populate('product')
         .populate('user')
 	    .then((review) => {
@@ -18,7 +18,7 @@ router.get("/review/:id", (req, res) => {
 	    .catch((error) => {
 			console.log("error: ", error)
 			res.json(error)}
-			); */
+			);
 });
 
 //<------------------???????????????????????????------------------------------->
