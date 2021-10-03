@@ -25,7 +25,6 @@ router.post("/product", (req, res) => {
 //<------------------RETRIEVES A ESPECIFIC PRODUCT BT ID------------------------------->
 
 router.get("/product/:id", (req, res) => {
-	console.log ("/product/:id ROUTE")
 	const { id } = req.params;
 
 	if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -39,10 +38,8 @@ router.get("/product/:id", (req, res) => {
 	Product.findById(id)
 	    .populate('reviews')
 	    .then((product) => {
-			console.log("then: ", product)
 		  	res.status(200).json(product)})
 	    .catch((error) => {
-			console.log("error: ", error)
 			res.json(error)}
 			);
 });

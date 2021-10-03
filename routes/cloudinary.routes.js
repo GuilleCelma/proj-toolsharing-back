@@ -3,9 +3,6 @@ const {cloudinary} = require("../config/cloudinary.config.js")
 
 router.post( "/upload" , async (req,res)=>{
 
-
-    
-
     try{
 
         const fileStr = req.body.data
@@ -17,7 +14,7 @@ router.post( "/upload" , async (req,res)=>{
 
     }catch(err){
         console.log(err)
-        res.status(500).json({err:"upps no va tio"})
+        res.status(500).json({err:"Cloudinary not responding"})
     }
 })
 
