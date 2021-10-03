@@ -13,8 +13,8 @@ require("./config")(app);
 /* const allRoutes = require("./routes");
 app.use("/api", allRoutes); */
 
-/* const authRouter = require("./routes/auth-routes");
-app.use("/", authRouter); */
+const authRouter = require("./routes/auth.routes");
+app.use("/", authRouter);
 
 /* const cloudRoutes = require("./routes/cloudinary-routes");
 app.use("/", cloudRoutes); */
