@@ -8,6 +8,7 @@ const Product = require ("../models/Product.model")
 router.get("/product", (req, res) => {
 
 	Product.find ()
+		.populate("reviews")
 		.then((allProjects) => res.json(allProjects))
 		.catch((err) => res.json(err))
 })
