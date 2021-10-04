@@ -61,8 +61,10 @@ router.put("/product/:id", (req, res) => {
 
 //<-----------------ROUTE TO DELETE A PRODUCT-------------------------------------->
 
-router.delete("/product/:id", (req, res) => {
+router.delete("/product/:productId", (req, res) => {
 	const { productId } = req.params;
+	console.log("DELETEEEEE ROUTE", productId)
+	
 
 	if (!mongoose.Types.ObjectId.isValid(productId)) {
 	  res.status(400).json({ message: "Specified id is not valid" });
