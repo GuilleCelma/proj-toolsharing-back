@@ -22,13 +22,14 @@ app.use("/", cloudRoutes);
 const userRouter = require("./routes/user-routes");
 app.use("/", userRouter);
 
-
 const productRouter = require("./routes/product-routes");
 app.use("/", productRouter);
 
 const reviewRouter = require("./routes/review-routes");
 app.use("/", reviewRouter);
 
+const chatRouter = require("./routes/chat-routes");
+app.use("/", chatRouter);
 
 
 /* app.use((req, res, next) => {

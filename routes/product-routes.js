@@ -45,6 +45,34 @@ router.get("/product/:id", (req, res) => {
 			);
 });
 
+//<-----------------ROUTE TO GET PRODUCTS BY CATEGORY-------------------------------------->
+
+router.get("/product/category/:category", (req, res) => {
+	console.log("category: ", req.params)
+	let {category} = req.params;
+
+	Product.find ({categories: category})
+		.then((productsByCategory) => {
+			res.json(productsByCategory)
+			console.log("productsByCategory: ", productsByCategory)}
+			)
+		.catch((err) => res.json(err))
+})
+
+//<-----------------ROUTE TO GET PRODUCTS BY SEARCH-------------------------------------->
+
+router.get("/product/search/:searchData", (req, res) => {
+	console.log("search: ", req.params)
+	let {searchData} = req.params;
+
+	Product.find( { $or:[ {name: { "$regex": `${searchData}`, "$options": "i" }}, {description: { "$regex": `${searchData}`, "$options": "i" }}]} )
+		.then((productsBySearchData) => {
+			console.log("productsBySearch: ", productsBySearchData)
+			res.json(productsBySearchData)}
+			)
+		.catch((err) => res.json(err))
+})
+
 //<-----------------ROUTE TO UPDATE A PRODUCT-------------------------------------->
 
 router.put("/product/:id", (req, res) => {
@@ -80,6 +108,7 @@ router.delete("/product/:productId", (req, res) => {
 	  )
 	  .catch((error) => res.json(error));
 });
+
 
 module.exports = router;
 
