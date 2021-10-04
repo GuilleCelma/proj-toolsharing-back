@@ -17,7 +17,9 @@ router.get( "/user/:id" , (req, res) =>{
 
     const {id} = req.params  
     User.findById(id)
-    .populate ()
+    .populate ("products")
+    .populate ("rentals")
+    .populate ("favorites")
     .then(user => res.json(user))
     .catch(err => console.log(err))
 })
