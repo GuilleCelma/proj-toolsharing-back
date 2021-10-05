@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Product = require ("../models/Product.model")
+const User = require ("../models/User.model.js")
 
 //<-----------------ROUTE TO LIST ALL THE PRODUCTS-------------------------------------->
 
@@ -19,9 +20,19 @@ router.post("/product", (req, res) => {
 	const { name, description, amount, photo, ownerId, categories, adquisitionYear } = req.body;
 
 	Product.create({ name, description, amount, photo, ownerId, categories, adquisitionYear, reviews: [] })
-	  .then((response) => res.json(response))
-	  .catch((err) => res.json(err));
-});
+	  .then((response) => {
+		  User.findByIdAndUpdate(ownerId, { 
+			  $push:{products: response._id}
+			/* res.json(response) */
+		})
+		.then(user => console.log("userresponse:-------", user))
+	})
+
+
+		 /*  }
+	  ) */
+	  .catch((err) => res.json(err))});
+/* }); */
 
 //<------------------RETRIEVES A ESPECIFIC PRODUCT BT ID------------------------------->
 
