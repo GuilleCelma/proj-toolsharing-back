@@ -10,12 +10,13 @@ const transactionSchema = new Schema({
     ref: "User"
   }
   ,
-  date: String,
+  startDate: String,
+  endDate: String,
   product: {
     type: Schema.Types.ObjectId,
     ref: "Product"
   },
-  accepted: Boolean,
+ 
     
 });
 

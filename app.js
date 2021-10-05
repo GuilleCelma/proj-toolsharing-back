@@ -31,6 +31,9 @@ app.use("/", reviewRouter);
 const chatRouter = require("./routes/chat-routes");
 app.use("/", chatRouter);
 
+const transactionRouter = require("./routes/transaction-routes");
+app.use("/", transactionRouter);
+
 
 /* app.use((req, res, next) => {
     // If no routes match, send them the React HTML.
