@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Product = require ("../models/Product.model")
-const User = require ("../models/User.model.js")
+const User = require ("../models/User.model")
 
 //<-----------------ROUTE TO LIST ALL THE PRODUCTS-------------------------------------->
 
@@ -50,11 +50,18 @@ router.get("/product/:id", (req, res) => {
 	Product.findById(id)
 	    .populate('reviews')
 	    .then((product) => {
-		  	res.status(200).json(product)})
+			User.findById (product.ownerId)
+				.then ((user)=> {
+					res.status(200).json({product: product, user:user})
+				})
+				.catch ((error)=> { console.log("error: ",error)
+
+				})
 	    .catch((error) => {
 			res.json(error)}
 			);
 });
+})
 
 //<-----------------ROUTE TO GET PRODUCTS BY CATEGORY-------------------------------------->
 
