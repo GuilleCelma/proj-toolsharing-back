@@ -13,7 +13,7 @@ const productSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Review"
     }],
-    avarageRating: Number,
+    averageRating: Number,
     
 });
 
