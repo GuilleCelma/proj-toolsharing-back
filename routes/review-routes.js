@@ -26,10 +26,26 @@ router.get("/review/:id", (req, res) => {
 router.post("/review", (req,res,next)=>{
     const {content, rating, productId} = req.body;
 
+    const oldRating = []
+    oldRating.push(rating)
+    const ratingSum = oldRating.reduce(function(acc, current) {return acc + current} )
+
+    const avarageRating = ratingSum / oldRating.length
+
+
+    Product.findById(productId)
+        .populate("reviews")
+        .then(result => { result.reviews.map(review => oldRating.push(review.rating))
+
+        })
+
+
     Review.create({content, rating, product: productId})
         .then((newReview)=>{
             Product.findByIdAndUpdate(projectId,{
-                $push:{reviews: newReview._id}
+                $push:{reviews: newReview._id},
+                $push:{avarageRating: avarageRating}
+                
             })
         })
         .then((result)=>{res.json(result)})
