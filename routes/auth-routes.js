@@ -74,6 +74,55 @@ router.post('/signup', (req, res, next) => {
     });
 });
 
+router.post ("/google", (req, res) => {
+  const {username, password, email} = req.body
+  const salt = bcrypt.genSaltSync(saltRounds);
+  const hashedPassword = bcrypt.hashSync(password, salt);
+/*   User.find ({email: email})
+  .then (foundUser => { if (!foundUser) {
+    User.create({email, username, password:hashedPassword})}
+    else {
+      
+    }
+    
+  }) */
+  User.find ({email: email})
+  .then((foundUser) => {
+    if (!foundUser[0]) {
+      console.log("!foundUser")
+      // If the user is not found, send an error response
+      User.create({email, username, password:hashedPassword}) 
+      return;
+    }
+    // Compare the provided password with the one saved in the database
+    const passwordCorrect = bcrypt.compareSync(password, foundUser[0].password);
+    console.log ("passwordCorrect: ", passwordCorrect)
+    if (passwordCorrect) {
+
+      // Deconstruct the user object to omit the password
+      const { _id, username } = foundUser;
+      
+      // Create an object that will be set as the token payload
+      const payload = { _id, username };
+
+      // Create and sign the token
+      const authToken = jwt.sign( 
+        payload,
+        process.env.TOKEN_SECRET,
+        { algorithm: 'HS256', expiresIn: "6h" }
+      );
+        console.log ("AUTHTOKEN: ", authToken)
+      // Send the token as the response
+      res.status(200).json({ authToken: authToken });
+    }
+    else {
+      res.status(400).json({ message: "Unable to authenticate the user" });
+    }
+
+  })
+
+})
+
 
 // POST  /auth/login - Verifies email and password and returns a JWT
 router.post('/login', (req, res, next) => {
