@@ -32,8 +32,12 @@ app.use("/", reviewRouter);
 const chatRouter = require("./routes/chat-routes");
 app.use("/", chatRouter);
 
+const transactionRouter = require("./routes/transaction-routes");
+app.use("/", transactionRouter);
+
 const mailRouter = require("./routes/nodemailer-routes");
 app.use("/", mailRouter);
+
 
 
 /* app.use((req, res, next) => {
