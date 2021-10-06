@@ -6,6 +6,7 @@ const { isAuthenticated } = require('../middleware/jwt.middleware.js');
 
 const Transaction = require("../models/Transaction.model")
 const User = require("../models/User.model")
+const Product = require("../models/Product.model")
 
 
 router.post("/transaction",isAuthenticated, (req, res, next ) =>{
@@ -16,6 +17,7 @@ const currentUser = token.id
 const {_id, ownerId} = req.body.product
 const {endDate} = req.body
 const {startDate} = req.body
+const {excludeDays} = req.body
 
 
 const dateFormater = (str) =>{
@@ -40,6 +42,9 @@ let formatedEndtDate = dateFormater(endDate)
         endDate:formatedEndtDate,
         product:_id})
         
+    .then(()=>{
+        Product.findByIdAndUpdate(_id, {bookDates:{$push:{excludeDays}}})
+    })
     .catch(err => console.log(err))
 
 
