@@ -30,9 +30,11 @@ const token = req.payload
 const {_id, ownerId} = req.body.product
 const {endDate} = req.body
 const {startDate} = req.body
-const {excludeDays} = req.body
+const {excludedDays} = req.body
 
+console.log(req.body)
 
+console.log("excluded",excludedDays)
 const dateFormater = (str) =>{
 
     const startYear = str.slice(0,4);
@@ -56,7 +58,15 @@ let formatedEndtDate = dateFormater(endDate)
         product:_id})
         
     .then(()=>{
-        Product.findByIdAndUpdate(_id, {bookDates:{$push:{excludeDays}}})
+        console.log("voy a dar tantas vueltas:", excludedDays.length)
+        for(let i =0; i < excludedDays.length; i++){
+
+            console.log("vuelta ", excludedDays[i])
+            Product.findByIdAndUpdate(_id, { $push: {bookDates:excludedDays[i]}} , {new:true})
+            .then(response => console.log(response))
+        }
+
+        
     })
     .catch(err => console.log(err))
 
