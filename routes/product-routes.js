@@ -17,9 +17,9 @@ router.get("/product", (req, res) => {
 //<-----------------ROUTE TO CREATE A NEW PRODUCT-------------------------------------->
 
 router.post("/product", (req, res) => {
-	const { name, description, amount, photo, ownerId, categories, adquisitionYear } = req.body;
+	const { name, description, amount, photo, ownerId, category, adquisitionYear } = req.body;
 
-	Product.create({ name, description, amount, photo, ownerId, categories, adquisitionYear, reviews: [] })
+	Product.create({ name, description, amount, photo, ownerId, category, adquisitionYear, reviews: [] })
 	  .then((response) => {
 		  User.findByIdAndUpdate(ownerId, { 
 			  $push:{products: response._id}
@@ -66,10 +66,9 @@ router.get("/product/:id", (req, res) => {
 //<-----------------ROUTE TO GET PRODUCTS BY CATEGORY-------------------------------------->
 
 router.get("/product/category/:category", (req, res) => {
-	console.log("category: ", req.params)
 	let {category} = req.params;
 
-	Product.find ({categories: category})
+	Product.find ({category: category})
 		.then((productsByCategory) => {
 			res.json(productsByCategory)
 		/* 	console.log("productsByCategory: ", productsByCategory)} */
@@ -98,7 +97,7 @@ router.post("/product/filter", (req, res)=> {
 	Product.find({ 
 		$and: [
 			{amount:{ $lte: amount}}, 
-			{categories: category}, 			
+			{category: category}, 			
 			{name: { "$regex": `${nameSearch}`, "$options": "i" }},
 			{averageRating: {$lte:averageRating}}
 

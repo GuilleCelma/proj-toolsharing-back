@@ -1,11 +1,11 @@
 const { Schema, model } = require("mongoose");
 
 const transactionSchema = new Schema({
-  renterId: {
+  renter: {
     type: Schema.Types.ObjectId,
     ref: "User"
   },
-  ownerId:{
+  owner:{
     type: Schema.Types.ObjectId,
     ref: "User"
   }
@@ -19,7 +19,5 @@ const transactionSchema = new Schema({
  
     
 });
-
 const Transaction = model("Transaction", transactionSchema);
-
 module.exports = Transaction;

@@ -1,13 +1,15 @@
 const { Schema, model } = require("mongoose");
-
 const productSchema = new Schema({
     name: String,
     description: String,
     amount: Number,
     photo: String,
-    ownerId: String,
-    categories:[String],
-    //Disponibilidad ?????
+    owner:[{
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }],
+    category:String,
+    bookDates:[String],
     adquisitionYear: String,
     reviews:[{
       type: Schema.Types.ObjectId,
@@ -16,7 +18,5 @@ const productSchema = new Schema({
     averageRating: Number,
     
 });
-
 const Product = model("Product", productSchema);
-
 module.exports = Product;
