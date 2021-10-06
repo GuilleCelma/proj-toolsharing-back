@@ -1,10 +1,8 @@
 const { Schema, model } = require("mongoose");
-
 const userSchema = new Schema({
   username:String,
   fullName: String,
   password: String,
-  birthdate: String,
   email: String,
   address:{
     street: String,
@@ -13,21 +11,16 @@ const userSchema = new Schema({
     postalCode: String,
   },
   location:{
-    lat:Number,
-    lng:Number
-  },
-  sex:{
-    type: String,
-    enum : ['Men','Women',"I prefer not to say"],
+    lat:String,
+    lng:String
   },
   tel: Number,
   profileImg: String,
-  paymentMethod: String,
-  products:[{
+  products: [{
     type: Schema.Types.ObjectId,
     ref: "Product"
   }],
-  rentals:[{
+  transactions:[{
     type: Schema.Types.ObjectId,
     ref: "Transaction"
   }],
@@ -37,7 +30,5 @@ const userSchema = new Schema({
   }],
   
 });
-
 const User = model("User", userSchema);
-
 module.exports = User;

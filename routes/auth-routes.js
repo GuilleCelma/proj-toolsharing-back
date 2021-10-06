@@ -50,7 +50,6 @@ router.post('/signup', (req, res, next) => {
       // If email is unique, proceed to hash the password
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashedPassword = bcrypt.hashSync(password, salt);
-
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then` 
       return User.create({ password: hashedPassword, username, profileImg, email, address, fullName});
@@ -78,18 +77,10 @@ router.post ("/google", (req, res) => {
   const {username, password, email} = req.body
   const salt = bcrypt.genSaltSync(saltRounds);
   const hashedPassword = bcrypt.hashSync(password, salt);
-/*   User.find ({email: email})
-  .then (foundUser => { if (!foundUser) {
-    User.create({email, username, password:hashedPassword})}
-    else {
-      
-    }
-    
-  }) */
+
   User.find ({email: email})
   .then((foundUser) => {
     if (!foundUser[0]) {
-      console.log("!foundUser")
       // If the user is not found, send an error response
       User.create({email, username, password:hashedPassword}) 
       return;
@@ -98,20 +89,16 @@ router.post ("/google", (req, res) => {
     const passwordCorrect = bcrypt.compareSync(password, foundUser[0].password);
     console.log ("passwordCorrect: ", passwordCorrect)
     if (passwordCorrect) {
-
       // Deconstruct the user object to omit the password
-      const { _id, username } = foundUser;
-      
+      const { _id, username } = foundUser[0];
       // Create an object that will be set as the token payload
       const payload = { _id, username };
-
       // Create and sign the token
       const authToken = jwt.sign( 
         payload,
         process.env.TOKEN_SECRET,
         { algorithm: 'HS256', expiresIn: "6h" }
       );
-        console.log ("AUTHTOKEN: ", authToken)
       // Send the token as the response
       res.status(200).json({ authToken: authToken });
     }
@@ -184,6 +171,7 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
 
   // Send back the object with user data
   // previously set as the token payload
+  console.log("PAYLOAD: ", req.payload)
   res.status(200).json(req.payload);
   console.log(req.payload)
 });
@@ -213,32 +201,6 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
         // const domain = payload['hd'];
       }
       verify().catch(console.error);
-
-
-
-
-/* 
-      const { token }  = req.body
-
-      const ticket = await client.verifyIdToken({
-           idToken: token,
-           audience: process.env.CLIENT_ID
-       });
-       const { name, email, picture } = ticket.getPayload();        
-       let username = name;
-       let objecToUpdate = {
-         username: name,
-         email: email,
-         imgUrl: picture
-       };
-       console.log(objectToUpdate)
-       const user = await User.findOneAndUpdate((name) , objectToUpdate)   
-   
-       req.session.userId = user.id
-   
-       res.status(201)
-       res.json(user)
-    */
 
  }) //This handles POST requests to /api/v1/auth/google , verifying and decoding the token, pulling out the three pieces of information we want to store, performs an upsert operation on our database, and returns the retrieved user as JSON. 
 

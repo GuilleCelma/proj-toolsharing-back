@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv/config");
 require("./db");
 require("./models/index")
+require("./templates/template")
 
 const { isAuthenticated } = require("./middleware/jwt.middleware"); // <== IMPORT
 
@@ -10,7 +11,7 @@ require("./config")(app);
 
 
 // 👇 MIDDLEWARE MISSING
-/* const allRoutes = require("./routes");
+/* const allRoutes = require("./routes/index-routes");
 app.use("/api", allRoutes);  */
 
 const authRouter = require("./routes/auth-routes");
@@ -30,6 +31,13 @@ app.use("/", reviewRouter);
 
 const chatRouter = require("./routes/chat-routes");
 app.use("/", chatRouter);
+
+const transactionRouter = require("./routes/transaction-routes");
+app.use("/", transactionRouter);
+
+const mailRouter = require("./routes/nodemailer-routes");
+app.use("/", mailRouter);
+
 
 
 /* app.use((req, res, next) => {

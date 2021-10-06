@@ -1,24 +1,23 @@
 const { Schema, model } = require("mongoose");
 
 const transactionSchema = new Schema({
-  renterId: {
+  renter: {
     type: Schema.Types.ObjectId,
     ref: "User"
   },
-  ownerId:{
+  owner:{
     type: Schema.Types.ObjectId,
     ref: "User"
   }
   ,
-  date: String,
+  startDate: String,
+  endDate: String,
   product: {
     type: Schema.Types.ObjectId,
     ref: "Product"
   },
-  accepted: Boolean,
+ 
     
 });
-
 const Transaction = model("Transaction", transactionSchema);
-
 module.exports = Transaction;
