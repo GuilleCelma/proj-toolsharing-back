@@ -5,12 +5,9 @@ const productSchema = new Schema({
     description: String,
     amount: Number,
     photo: String,
-    ownerId:[{
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    }],
-    category:String,
-    bookDates:[String],
+    ownerId: String,
+    categories:[String],
+    //Disponibilidad ?????
     adquisitionYear: String,
     reviews:[{
       type: Schema.Types.ObjectId,
