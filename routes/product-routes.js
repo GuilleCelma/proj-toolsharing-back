@@ -112,16 +112,21 @@ router.post("/product/filter", (req, res)=> {
 
 //<-----------------ROUTE TO UPDATE A PRODUCT-------------------------------------->
 
-router.put("/product/:id", (req, res) => {
+router.put("/product/:productId", (req, res) => {
 	const { productId } = req.params;
+	console.log("Aquiiiiiiiiiii llega al back", productId)
+	const { name, description, amount, photo, category, adquisitionYear } = req.body;
+
 
 	if (!mongoose.Types.ObjectId.isValid(productId)) {
 	  res.status(400).json({ message: "Specified id is not valid" });
 	  return;
 	}
   
-	Product.findByIdAndUpdate(productId, req.body, { new: true })
-	  .then((updatedProduct) => res.json(updatedProject))
+	Product.findByIdAndUpdate(productId, {name, description, amount, photo, category, adquisitionYear }, { new: true })
+	  .then((updatedProduct) => {
+		  console.log(updatedProduct);
+		  res.json(updatedProject)})
 	  .catch((error) => res.json(error));
   });
 

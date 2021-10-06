@@ -9,7 +9,7 @@ const productSchema = new Schema({
       ref: "User"
     }],
     category:String,
-    bookDates:[String],
+    bookDates:Array,
     adquisitionYear: String,
     reviews:[{
       type: Schema.Types.ObjectId,
