@@ -12,6 +12,10 @@ const userSchema = new Schema({
     city: String,
     postalCode: String,
   },
+  location:{
+    lat:Number,
+    lng:Number
+  },
   sex:{
     type: String,
     enum : ['Men','Women',"I prefer not to say"],

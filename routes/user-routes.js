@@ -19,7 +19,7 @@ router.get( "/user/:id" , (req, res) =>{
     User.findById(id)
     .populate ("products")
     .populate ("rentals")
-    .populate ("favorites")
+    /* .populate ("favorites") */
     .then(user => res.json(user))
     .catch(err => console.log(err))
 })
@@ -29,9 +29,20 @@ router.get( "/user/:id" , (req, res) =>{
 router.put( "/user/:id", (req,res) =>{
 
     const {id} = req.params  
-    const {fullName, username, address, profileImg } = req.body  
+    const {fullName, username, address, profileImg, location } = req.body 
+    
+    address && location ?
 
-    User.findByIdAndUpdate(id, {fullName, username, address, profileImg }, {new:true})
+    User.findByIdAndUpdate(id, {address, location}, {new:true})
+    .then(userUpdated => {
+        res.json(userUpdated)
+        console.log("userupdatedback" , userUpdated) })
+    .catch(err => console.log("put error back", err))
+        
+    :
+
+
+    User.findByIdAndUpdate(id, {fullName, username, profileImg }, {new:true})
     .then(userUpdated => {
         res.json(userUpdated)
         console.log("userupdatedback" , userUpdated) })
