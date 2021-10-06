@@ -1299,6 +1299,11 @@
   "resolved" "https://registry.npmjs.org/node-forge/-/node-forge-0.10.0.tgz"
   "version" "0.10.0"
 
+"nodemailer@^6.6.5":
+  "integrity" "sha512-C/v856DBijUzHcHIgGpQoTrfsH3suKIRAGliIzCstatM2cAa+MYX3LuyCrABiO/cdJTxgBBHXxV1ztiqUwst5A=="
+  "resolved" "https://registry.npmjs.org/nodemailer/-/nodemailer-6.6.5.tgz"
+  "version" "6.6.5"
+
 "nodemon@^2.0.12":
   "integrity" "sha512-UMXMpsZsv1UXUttCn6gv8eQPhn6DR4BW+txnL3IN5IHqrCwcrT/yWHfL35UsClGXknTH79r5xbu+6J1zNHuSyA=="
   "resolved" "https://registry.npmjs.org/nodemon/-/nodemon-2.0.13.tgz"

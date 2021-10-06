@@ -2,13 +2,15 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Product = require ("../models/Product.model")
+const User = require ("../models/User.model")
 
 //<-----------------ROUTE TO LIST ALL THE PRODUCTS-------------------------------------->
 
 router.get("/product", (req, res) => {
 
 	Product.find ()
-		.then((allProducts) => res.json(allProducts))
+		.populate("reviews")
+		.then((allProjects) => res.json(allProjects))
 		.catch((err) => res.json(err))
 })
 
@@ -18,9 +20,19 @@ router.post("/product", (req, res) => {
 	const { name, description, amount, photo, ownerId, categories, adquisitionYear } = req.body;
 
 	Product.create({ name, description, amount, photo, ownerId, categories, adquisitionYear, reviews: [] })
-	  .then((response) => res.json(response))
-	  .catch((err) => res.json(err));
-});
+	  .then((response) => {
+		  User.findByIdAndUpdate(ownerId, { 
+			  $push:{products: response._id}
+			/* res.json(response) */
+		})
+		.then(user => console.log("userresponse:-------", user))
+	})
+
+
+		 /*  }
+	  ) */
+	  .catch((err) => res.json(err))});
+/* }); */
 
 //<------------------RETRIEVES A ESPECIFIC PRODUCT BT ID------------------------------->
 
@@ -38,11 +50,18 @@ router.get("/product/:id", (req, res) => {
 	Product.findById(id)
 	    .populate('reviews')
 	    .then((product) => {
-		  	res.status(200).json(product)})
+			User.findById (product.ownerId)
+				.then ((user)=> {
+					res.status(200).json({product: product, user:user})
+				})
+				.catch ((error)=> { console.log("error: ",error)
+
+				})
 	    .catch((error) => {
 			res.json(error)}
 			);
 });
+})
 
 //<-----------------ROUTE TO GET PRODUCTS BY CATEGORY-------------------------------------->
 
