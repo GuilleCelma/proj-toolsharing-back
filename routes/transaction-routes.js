@@ -3,16 +3,34 @@
 const express = require("express");
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/jwt.middleware.js');
-
 const Transaction = require("../models/Transaction.model")
-const User = require("../models/User.model")
+
+
+
+
+
+router.get("/transaction", isAuthenticated, (req, res, next) =>{
+
+    const currentUserId = req.payload._id
+
+    Transaction.find( 
+        {$and: [
+            {owner:currentUserId},
+            {renter:currentUserId}
+          ]
+        })
+    .then(allTransactions => res.json(allTransactions))
+    .catch(err => console.log(err))
+
+
+})
+
 
 
 router.post("/transaction",isAuthenticated, (req, res, next ) =>{
 
 
 const token = req.payload
-const currentUser = token.id
 const {_id, ownerId} = req.body.product
 const {endDate} = req.body
 const {startDate} = req.body
@@ -34,8 +52,8 @@ let formatedEndtDate = dateFormater(endDate)
 
 
     Transaction.create({
-        renterId:token._id, 
-        ownerId:ownerId,
+        renter:token._id, 
+        owner:ownerId,
         startDate:formatedStartDate,
         endDate:formatedEndtDate,
         product:_id})
