@@ -17,11 +17,11 @@ router.get("/product", (req, res) => {
 //<-----------------ROUTE TO CREATE A NEW PRODUCT-------------------------------------->
 
 router.post("/product", (req, res) => {
-	const { name, description, amount, photo, ownerId, category, adquisitionYear } = req.body;
+	const { name, description, amount, photo, owner, category, adquisitionYear } = req.body;
 
-	Product.create({ name, description, amount, photo, ownerId, category, adquisitionYear, reviews: [] })
+	Product.create({ name, description, amount, photo, owner, category, adquisitionYear, reviews: [] })
 	  .then((response) => {
-		  User.findByIdAndUpdate(ownerId, { 
+		  User.findByIdAndUpdate(owner, { 
 			  $push:{products: response._id}
 			/* res.json(response) */
 		})
@@ -50,7 +50,7 @@ router.get("/product/:id", (req, res) => {
 	Product.findById(id)
 	    .populate('reviews')
 	    .then((product) => {
-			User.findById (product.ownerId)
+			User.findById (product.owner)
 				.then ((user)=> {
 					res.status(200).json({product: product, user:user})
 				})

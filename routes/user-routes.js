@@ -28,14 +28,28 @@ router.get( "/user/:id" , (req, res) =>{
 router.put( "/user/:id", (req,res) =>{
 
     const {id} = req.params  
-    const {fullName, username, address, profileImg } = req.body  
+    const {fullName, username, address, profileImg, location } = req.body  
 
-    User.findByIdAndUpdate(id, {fullName, username, address, profileImg }, {new:true})
+    address && location ? 
+
+    User.findByIdAndUpdate(id, {address, location }, {new:true})
     .then(userUpdated => {
         res.json(userUpdated)
         console.log("userupdatedback" , userUpdated) })
     .catch(err => console.log("put error back", err))
+
+     : 
+
+
+    User.findByIdAndUpdate(id, {fullName, username, profileImg }, {new:true})
+    .then(userUpdated => {
+        res.json(userUpdated)
+        console.log("userupdatedback" , userUpdated) })
+    .catch(err => console.log("put error back", err))
+    
 })
+
+
 
 
 //<-----------------ROUTE TO UPDATE USERS-------------------------------------------------------------------------------------------------------->
