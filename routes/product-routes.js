@@ -21,6 +21,7 @@ router.post("/product", (req, res) => {
 
 	Product.create({ name, description, amount, photo, ownerId, categories, adquisitionYear, reviews: [] })
 	  .then((response) => {
+		  console.log("responseeeeee", response)
 		  User.findByIdAndUpdate(ownerId, { 
 			  $push:{products: response._id}
 			/* res.json(response) */
@@ -72,8 +73,9 @@ router.get("/product/category/:category", (req, res) => {
 	Product.find ({categories: category})
 		.then((productsByCategory) => {
 			res.json(productsByCategory)
-			console.log("productsByCategory: ", productsByCategory)}
-			)
+		/* 	console.log("productsByCategory: ", productsByCategory)} */
+		//	)
+		})
 		.catch((err) => res.json(err))
 })
 
@@ -90,6 +92,27 @@ router.get("/product/search/:searchData", (req, res) => {
 			)
 		.catch((err) => res.json(err))
 })
+
+router.post("/product/filter", (req, res)=> {
+	console.log("/product/filter")
+	console.log("Req.body :", req.body)
+	const {amount, category, averageRating, nameSearch} = req.body
+	Product.find({ 
+		$and: [
+			{amount:{ $lte: amount}}, 
+			{categories: category}, 			
+			{name: { "$regex": `${nameSearch}`, "$options": "i" }},
+			{averageRating: {$lte:averageRating}}
+
+
+		]}
+		)
+		.sort({"averageRating" : -1 })
+		.then((response) => {
+			console.log("RESPONSEEEEEE", response)
+			res.json(response)})
+	})
+
 
 //<-----------------ROUTE TO UPDATE A PRODUCT-------------------------------------->
 
