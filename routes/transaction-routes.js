@@ -23,7 +23,7 @@ router.get("/transaction", isAuthenticated, (req, res, next) =>{
 
 })
 
-router.post("/transaction",isAuthenticated, (req, res, next ) =>{
+router.post("/transaction" ,isAuthenticated, (req, res, next ) =>{
 
 
 const token = req.payload
@@ -58,10 +58,7 @@ let formatedEndtDate = dateFormater(endDate)
         product:_id})
         
     .then(()=>{
-        console.log("voy a dar tantas vueltas:", excludedDays.length)
         for(let i =0; i < excludedDays.length; i++){
-
-            console.log("vuelta ", excludedDays[i])
             Product.findByIdAndUpdate(_id, { $push: {bookDates:excludedDays[i]}} , {new:true})
             .then(response => console.log(response))
         }

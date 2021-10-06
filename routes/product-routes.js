@@ -18,14 +18,15 @@ router.get("/product", (req, res) => {
 
 router.post("/product", (req, res) => {
 	const { name, description, amount, photo, owner, category, adquisitionYear } = req.body;
+	let averageRating = 0
 
-	Product.create({ name, description, amount, photo, owner, category, adquisitionYear, reviews: [] })
+	Product.create({ name, description, amount, photo, owner, category, adquisitionYear, reviews: [] , averageRating})
 	  .then((response) => {
 		  User.findByIdAndUpdate(owner, { 
 			  $push:{products: response._id}
 			/* res.json(response) */
 		})
-		.then(user => console.log("userresponse:-------", user))
+		.then(product => res.json(product))
 	})
 
 
