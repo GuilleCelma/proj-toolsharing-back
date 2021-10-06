@@ -36,7 +36,6 @@ router.post("/review", (req,res,next)=>{
     Product.findById(productId)
         .populate("reviews")
         .then(result => { result.reviews.map(review => oldRating.push(review.rating))
-
         })
 
 

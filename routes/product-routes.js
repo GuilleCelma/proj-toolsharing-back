@@ -21,7 +21,6 @@ router.post("/product", (req, res) => {
 
 	Product.create({ name, description, amount, photo, ownerId, categories, adquisitionYear, reviews: [] })
 	  .then((response) => {
-		  console.log("responseeeeee", response)
 		  User.findByIdAndUpdate(ownerId, { 
 			  $push:{products: response._id}
 			/* res.json(response) */
@@ -87,7 +86,6 @@ router.get("/product/search/:searchData", (req, res) => {
 
 	Product.find( { $or:[ {name: { "$regex": `${searchData}`, "$options": "i" }}, {description: { "$regex": `${searchData}`, "$options": "i" }}]} )
 		.then((productsBySearchData) => {
-			console.log("productsBySearch: ", productsBySearchData)
 			res.json(productsBySearchData)}
 			)
 		.catch((err) => res.json(err))
@@ -109,7 +107,6 @@ router.post("/product/filter", (req, res)=> {
 		)
 		.sort({"averageRating" : -1 })
 		.then((response) => {
-			console.log("RESPONSEEEEEE", response)
 			res.json(response)})
 	})
 
@@ -132,9 +129,7 @@ router.put("/product/:id", (req, res) => {
 //<-----------------ROUTE TO DELETE A PRODUCT-------------------------------------->
 
 router.delete("/product/:productId", (req, res) => {
-	const { productId } = req.params;
-	console.log("DELETEEEEE ROUTE", productId)
-	
+	const { productId } = req.params;	
 
 	if (!mongoose.Types.ObjectId.isValid(productId)) {
 	  res.status(400).json({ message: "Specified id is not valid" });
