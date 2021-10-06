@@ -24,6 +24,21 @@ router.get( "/user/:id" , (req, res) =>{
     .catch(err => console.log(err))
 })
 
+//<-----------------ROUTE TO GET USER BY EMAIL -------------------------------------------------------------------------------------------------------->
+
+router.post( "/user/email" , (req, res) =>{
+    const {email} = req.body  
+    User.find({email: email})
+    .then(user => {
+        if (user.length>0) {
+            res.json("1")
+        }else{ 
+            res.json("0")
+        }
+    })
+    .catch(err => console.log(err))
+})
+
 //<-----------------ROUTE TO UPDATE USERS-------------------------------------------------------------------------------------------------------->
 
 router.put( "/user/:id", (req,res) =>{
@@ -41,16 +56,6 @@ router.put( "/user/:id", (req,res) =>{
         
     :
 
-
-    User.findByIdAndUpdate(id, {fullName, username, profileImg }, {new:true})
-    .then(userUpdated => {
-        res.json(userUpdated)
-        console.log("userupdatedback" , userUpdated) })
-    .catch(err => console.log("put error back", err))
-
-     : 
-
-
     User.findByIdAndUpdate(id, {fullName, username, profileImg }, {new:true})
     .then(userUpdated => {
         res.json(userUpdated)
@@ -58,8 +63,6 @@ router.put( "/user/:id", (req,res) =>{
     .catch(err => console.log("put error back", err))
     
 })
-
-
 
 
 //<-----------------ROUTE TO UPDATE USERS-------------------------------------------------------------------------------------------------------->
@@ -91,7 +94,7 @@ router.post("/fav/:id", (req,res) => {
     .then(result=>console.log('result:',result))
 })
 
-//<-----------------????????????????????????????????????-------------------------------------------------------------------------------------------------------->
+//<-----------------ROUTE TO CHECK FAVORITES-------------------------------------------------------------------------------------------------------->
 
 router.put("/fav/:id", (req,res) => {
     const {id} = req.params
