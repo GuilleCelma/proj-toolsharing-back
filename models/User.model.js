@@ -4,6 +4,7 @@ const userSchema = new Schema({
   username:String,
   fullName: String,
   password: String,
+  birthdate: String,
   email: String,
   address:{
     street: String,
@@ -11,9 +12,9 @@ const userSchema = new Schema({
     city: String,
     postalCode: String,
   },
-  location:{
-    lat:String,
-    lng:String
+  sex:{
+    type: String,
+    enum : ['Men','Women',"I prefer not to say"],
   },
   tel: Number,
   profileImg: String,
@@ -22,7 +23,7 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Product"
   }],
-  transactions:[{
+  rentals:[{
     type: Schema.Types.ObjectId,
     ref: "Transaction"
   }],
