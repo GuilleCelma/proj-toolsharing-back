@@ -7,14 +7,11 @@ const mongoose = require("mongoose")
 
 router.get("/chat/:id", (req, res) => {
 	const {id} = req.params 
-	console.log ("route chat, the id: ",id )
-	console.log ("type of id: ", typeof id)
 /* 	Transaction.find( { $or:[ {renterId: id }, {ownerId: id} ]})
  */	Transaction.find ()
 	.populate ("ownerId")
 	.populate ("renterId")
 	.then((transactions) => {
-		console.log("transactions: ", transactions)
 		res.json(transactions)}
 		)
 	.catch((err) => {
