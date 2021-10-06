@@ -50,6 +50,7 @@ router.get("/product/:id", (req, res) => {
 	Product.findById(id)
 	    .populate('reviews')
 	    .then((product) => {
+			console.log(product)
 			User.findById (product.owner)
 				.then ((user)=> {
 					res.status(200).json({product: product, user:user})

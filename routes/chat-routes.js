@@ -7,10 +7,10 @@ const mongoose = require("mongoose")
 
 router.get("/chat/:id", (req, res) => {
 	const {id} = req.params 
-/* 	Transaction.find( { $or:[ {renterId: id }, {ownerId: id} ]})
- */	Transaction.find ()
-	.populate ("ownerId")
-	.populate ("renterId")
+
+ Transaction.find()
+	.populate ("owner")
+	.populate ("renter")
 	.then((transactions) => {
 		res.json(transactions)}
 		)

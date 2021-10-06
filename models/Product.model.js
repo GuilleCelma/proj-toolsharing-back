@@ -4,12 +4,12 @@ const productSchema = new Schema({
     description: String,
     amount: Number,
     photo: String,
-    owner:[{
+    owner:{
       type: Schema.Types.ObjectId,
       ref: "User"
-    }],
+    },
     category:String,
-    bookDates:[[]],
+    bookDates:[],
     adquisitionYear: String,
     reviews:[{
       type: Schema.Types.ObjectId,
