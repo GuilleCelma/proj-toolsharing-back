@@ -50,7 +50,7 @@ router.post('/signup', (req, res, next) => {
       // If email is unique, proceed to hash the password
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashedPassword = bcrypt.hashSync(password, salt);
-
+      console.log("CREATION: ", password , username, profileImg, email, address, fullName)
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then` 
       return User.create({ password: hashedPassword, username, profileImg, email, address, fullName});
@@ -58,6 +58,7 @@ router.post('/signup', (req, res, next) => {
     .then((createdUser) => {
       // Deconstruct the newly created user object to omit the password
       // We should never expose passwords publicly
+      console.log ("CREATEDUSER: ", createdUser)
       const { email, name, _id } = createdUser;
     
       // Create a new object that doesn't expose the password
@@ -78,14 +79,7 @@ router.post ("/google", (req, res) => {
   const {username, password, email} = req.body
   const salt = bcrypt.genSaltSync(saltRounds);
   const hashedPassword = bcrypt.hashSync(password, salt);
-/*   User.find ({email: email})
-  .then (foundUser => { if (!foundUser) {
-    User.create({email, username, password:hashedPassword})}
-    else {
-      
-    }
-    
-  }) */
+
   User.find ({email: email})
   .then((foundUser) => {
     if (!foundUser[0]) {
@@ -100,9 +94,10 @@ router.post ("/google", (req, res) => {
     if (passwordCorrect) {
 
       // Deconstruct the user object to omit the password
-      const { _id, username } = foundUser;
+      const { _id, username } = foundUser[0];
       
       // Create an object that will be set as the token payload
+      console.log ("FOUNDUSER: ", foundUser)
       const payload = { _id, username };
 
       // Create and sign the token
@@ -184,6 +179,7 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
 
   // Send back the object with user data
   // previously set as the token payload
+  console.log("PAYLOAD: ", req.payload)
   res.status(200).json(req.payload);
   console.log(req.payload)
 });

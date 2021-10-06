@@ -19,7 +19,6 @@ router.get( "/user/:id" , (req, res) =>{
     User.findById(id)
     .populate ("products")
     .populate ("rentals")
-    .populate ("favorites")
     .then(user => res.json(user))
     .catch(err => console.log(err))
 })
