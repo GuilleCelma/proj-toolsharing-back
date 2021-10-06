@@ -1,11 +1,11 @@
 const { Schema, model } = require("mongoose");
 
 const transactionSchema = new Schema({
-  renterId: {
+  renter: {
     type: Schema.Types.ObjectId,
     ref: "User"
   },
-  ownerId:{
+  owner:{
     type: Schema.Types.ObjectId,
     ref: "User"
   }
