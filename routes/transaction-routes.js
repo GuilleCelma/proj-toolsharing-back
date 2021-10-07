@@ -7,16 +7,30 @@ const Transaction = require("../models/Transaction.model")
 const User = require("../models/User.model")
 const Product = require("../models/Product.model")
 
-router.get("/transaction", isAuthenticated, (req, res, next) =>{
 
-    const currentUserId = req.payload._id
+
+
+router.get("/transaction/profile/:id", (req, res, next) =>{
+
+
+
+    const id = req.params.id
+   
+
+
+
 
     Transaction.find( 
         {$or: [
-            {owner:currentUserId},
-            {renter:currentUserId}
+            {owner:id },
+            {renter:id }
           ]
         })
+        .populate("product")
+        .populate("renter")
+        .populate("owner")
+       
+        
     .then(allTransactions => res.json(allTransactions))
     .catch(err => console.log(err))
 
