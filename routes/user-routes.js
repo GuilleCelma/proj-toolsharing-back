@@ -48,7 +48,7 @@ router.put( "/user/:id", (req,res) =>{
     const {id} = req.params  
     const {fullName, username, address, profileImg, location } = req.body  
     
-    if(ddress && location ) {
+    if(address && location ) {
         User.findByIdAndUpdate(id, {address, location}, {new:true})
         .then(userUpdated => {
             Product.updateMany({owner:userUpdated._id}, {location:location})
