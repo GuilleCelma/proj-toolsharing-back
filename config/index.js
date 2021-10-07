@@ -9,7 +9,7 @@ const logger = require("morgan");
 // https://www.npmjs.com/package/cookie-parser
 const cookieParser = require("cookie-parser");
 
-/* const cors = require("cors");  */// <== IMPORT
+const cors = require("cors");  // <== IMPORT
 const ip = "198.51.44.67"
 // Middleware configuration
 module.exports = (app) => {
@@ -17,9 +17,9 @@ module.exports = (app) => {
   // Services like heroku use something called a proxy and you need to add this to your server
   app.set("trust proxy", ip);
 
- /*  app.use(
+  app.use(
     cors()
-  ); */
+  ); 
 
   // In development environment the app logs
   app.use(logger("dev"));
