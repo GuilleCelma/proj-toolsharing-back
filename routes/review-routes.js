@@ -27,35 +27,36 @@ router.post("/review", (req,res,next)=>{
 
     const {content, rating, productId} = req.body;
 
-    console.log( "he entrado en la ruta review", req.body)
-    const oldRating = []
-    oldRating.push(parseInt(rating, 10))
-    const ratingSum = oldRating.reduce(function(acc, current) {return acc + current} )
-
-    const averageRating = ratingSum / oldRating.length
+    console.log( "he entrado en la ruta review")
+   
     
     Review.create({content, rating, product: productId})
 
         .then((newReview)=>{
-            Product.findByIdAndUpdate(projectId,{
-                $push:{reviews: newReview._id},
-                
+            Product.findByIdAndUpdate(productId,{
+                $push:{reviews: newReview._id}
             }, {new:true})
             .then(reviewedProduct => {
+
                 let newAverageRating = (reviewedProduct.averageRating + rating) / (reviewedProduct.reviews.length)
-                console.log ("the new averageRating with "+ (reviewedProduct.reviews.length + "ratings is: "+ newAverageRating))
-            }
-                )
+
+                Product.findByIdAndUpdate(productId,{
+                    $push:{averageRating: newAverageRating}
+                },{new:true})
+                .then(()=>{
+                    
+                    Product.findById(productId)
+                        .populate("reviews")
+                        .then(result => { 
+                            result.reviews.map(review =>{ oldRating.push(review.rating)
+                                
+                            })
+                            console.log("resultado reviews:")
+                
+                        });
+                })
+            })
             
-            Product.findById(productId)
-                .populate("reviews")
-                .then(result => { 
-                    result.reviews.map(review =>{ oldRating.push(review.rating)
-                        
-                    })
-                    console.log("resultado reviews:" , result)
-        
-                 });
             
             
             res.json(newReview)
