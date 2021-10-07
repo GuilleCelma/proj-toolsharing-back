@@ -51,7 +51,7 @@ router.put( "/user/:id", (req,res) =>{
     User.findByIdAndUpdate(id, {address, location}, {new:true})
     .then(userUpdated => {
         res.json(userUpdated)
-        console.log("userupdatedback" , userUpdated) })
+     })
     .catch(err => console.log("put error back", err))
         
     :
@@ -111,8 +111,6 @@ router.put("/fav/:id", (req,res) => {
 
     User.findByIdAndUpdate(userId,{ favorites:filteredArray})
     .then((result)=>{
-          
-    
         console.log('remove from favorites:',result)
      })
     

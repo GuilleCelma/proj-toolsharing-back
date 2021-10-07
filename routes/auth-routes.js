@@ -50,6 +50,7 @@ router.post("/signup", (req, res, next) => {
       const hashedPassword = bcrypt.hashSync(password, salt);
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then`
+      console.log("password: hashedPassword, username, email--->", { password: hashedPassword, username, email })
       return User.create({ password: hashedPassword, username, email });
     })
     .then((createdUser) => {
@@ -71,12 +72,23 @@ router.post("/signup", (req, res, next) => {
     });
 });
 
+router.post("/google/signup", (req, res) => {
+  const { username, password, email } = req.body;
+  const salt = bcrypt.genSaltSync(saltRounds);
+  const hashedPassword = bcrypt.hashSync(password, salt);
+  console.log("USER NOT FOUND");
+  User.create({ email, username, password: hashedPassword })
+    .then (res.status(200).json({ email: email }))
+    .catch((err) => res.status(500).json({ message: "Internal Server Error" }));
+})
+
 router.post("/google", (req, res) => {
   const { username, password, email } = req.body;
   const salt = bcrypt.genSaltSync(saltRounds);
   const hashedPassword = bcrypt.hashSync(password, salt);
 
-  User.find({ email: email }).then((foundUser) => {
+  User.find({ email: email })
+    .then((foundUser) => {
     if (!foundUser[0]) {
       console.log("USER NOT FOUND");
       // If the user is not found, send an error response
@@ -115,32 +127,21 @@ router.post("/login", (req, res, next) => {
     return;
   }
 
-  // Check the users collection if a user with the same email exists
   User.findOne({ email })
     .then((foundUser) => {
       if (!foundUser) {
-        // If the user is not found, send an error response
         res.status(400).json({ message: "User not found." });
         return;
       }
-
-      // Compare the provided password with the one saved in the database
       const passwordCorrect = bcrypt.compareSync(password, foundUser.password);
 
       if (passwordCorrect) {
-        // Deconstruct the user object to omit the password
         const { _id, email } = foundUser;
-
-        // Create an object that will be set as the token payload
         const payload = { _id, email };
-
-        // Create and sign the token
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",
         });
-
-        // Send the token as the response
         res.status(200).json({ authToken: authToken });
       } else {
         res.status(400).json({ message: "Unable to authenticate the user" });
@@ -149,41 +150,8 @@ router.post("/login", (req, res, next) => {
     .catch((err) => res.status(500).json({ message: "Internal Server Error" }));
 });
 
-// GET  /auth/verify  -  Used to verify JWT stored on the client
 router.get("/verify", isAuthenticated, (req, res, next) => {
-  // If JWT token is valid the payload gets decoded by the
-  // isAuthenticated middleware and made available on `req.payload`
-  //console.log(`req.payload`, req.payload);
-
-  // Send back the object with user data
-  // previously set as the token payload
-  console.log("PAYLOAD: ", req.payload);
   res.status(200).json(req.payload);
-  console.log(req.payload);
 });
-
-/*    const { OAuth2Client } = require('google-auth-library')
-    const client = new OAuth2Client(process.env.CLIENT_ID)
-
-
-    router.post("/google", async (req, res) => {  
-
-        const {OAuth2Client} = require('google-auth-library');
-        const client = new OAuth2Client(CLIENT_ID);
-        async function verify() {
-          const ticket = await client.verifyIdToken({
-              idToken: token,
-              audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-              // Or, if multiple clients access the backend:
-              //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-          });
-          const payload = ticket.getPayload();
-          const userid = payload['sub'];
-          // If request specified a G Suite domain:
-          // const domain = payload['hd'];
-        }
-        verify().catch(console.error);
-
-  }) */ //This handles POST requests to /api/v1/auth/google , verifying and decoding the token, pulling out the three pieces of information we want to store, performs an upsert operation on our database, and returns the retrieved user as JSON.
 
 module.exports = router;

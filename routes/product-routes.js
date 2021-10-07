@@ -29,9 +29,6 @@ router.post("/product", (req, res) => {
 		.then(product => res.json(product))
 	})
 
-
-		 /*  }
-	  ) */
 	  .catch((err) => res.json(err))});
 /* }); */
 
