@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User.model")
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const Product = require("../models/Product.model");
+
 
 //<-----------------ROUTE TO GET ALL USERS -------------------------------------------------------------------------------------------------------->
 
@@ -50,6 +52,8 @@ router.put( "/user/:id", (req,res) =>{
 
     User.findByIdAndUpdate(id, {address, location}, {new:true})
     .then(userUpdated => {
+        Product.updateMany({owner:userUpdated._id}, {location:location})
+        .then( () => res.json(userUpdated))
         res.json(userUpdated)
      })
     .catch(err => console.log("put error back", err))
