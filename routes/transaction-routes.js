@@ -25,9 +25,9 @@ router.get("/transaction", isAuthenticated, (req, res, next) =>{
 
 router.post("/transaction" ,isAuthenticated, (req, res, next ) =>{
 
-
+console.log("/transation llega: ", req.body)
 const token = req.payload
-const {_id, ownerId} = req.body.product
+const {_id, owner} = req.body.product
 const {endDate} = req.body
 const {startDate} = req.body
 const {excludedDays} = req.body
@@ -52,7 +52,7 @@ let formatedEndtDate = dateFormater(endDate)
 
     Transaction.create({
         renter:token._id, 
-        owner:ownerId,
+        owner:owner,
         startDate:formatedStartDate,
         endDate:formatedEndtDate,
         product:_id})

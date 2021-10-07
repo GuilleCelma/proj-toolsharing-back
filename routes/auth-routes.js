@@ -14,6 +14,7 @@ router.post("/signup", (req, res, next) => {
 
   const { username, password, email } = req.body; //<------------REACT CONTROLED FORM INFO STORED----------------->
 
+  
   /*   console.log("req.body:    ", req.body)
     console.log("signup") */
   // Check if email or password or name are provided as empty string
@@ -50,11 +51,13 @@ router.post("/signup", (req, res, next) => {
       const hashedPassword = bcrypt.hashSync(password, salt);
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then`
-      console.log("password: hashedPassword, username, email--->", { password: hashedPassword, username, email })
-      return User.create({ password: hashedPassword, username, email });
+      let defaultLocation = {
+        lat: "0",
+        lng: "0"
+      }
+      return User.create({ password: hashedPassword, username, email, location: defaultLocation });
     })
     .then((createdUser) => {
-      console.log("CREATEDUSER: ", createdUser);
       // Deconstruct the newly created user object to omit the password
       // We should never expose passwords publicly
       const { email, name, _id } = createdUser;
@@ -73,10 +76,14 @@ router.post("/signup", (req, res, next) => {
 });
 
 router.post("/google/signup", (req, res) => {
+  let defaultLocation = {
+    lat: "0",
+    lng: "0"
+  }
   const { username, password, email } = req.body;
   const salt = bcrypt.genSaltSync(saltRounds);
   const hashedPassword = bcrypt.hashSync(password, salt);
-  User.create({ email, username, password: hashedPassword })
+  User.create({ email, username, password: hashedPassword, location: defaultLocation})
     .then (res.status(200).json({ email: email }))
     .catch((err) => res.status(500).json({ message: "Internal Server Error" }));
 })
@@ -85,7 +92,7 @@ router.post("/google", (req, res) => {
   const { username, password, email } = req.body;
   const salt = bcrypt.genSaltSync(saltRounds);
   const hashedPassword = bcrypt.hashSync(password, salt);
-
+ 
   User.find({ email: email })
     .then((foundUser) => {
     if (!foundUser[0]) {

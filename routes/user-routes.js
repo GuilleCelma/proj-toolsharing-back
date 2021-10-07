@@ -48,17 +48,15 @@ router.put( "/user/:id", (req,res) =>{
     const {id} = req.params  
     const {fullName, username, address, profileImg, location } = req.body  
     
-    address && location ?
-
-    User.findByIdAndUpdate(id, {address, location}, {new:true})
-    .then(userUpdated => {
-        Product.updateMany({owner:userUpdated._id}, {location:location})
-        .then( () => res.json(userUpdated))
-        res.json(userUpdated)
-     })
-    .catch(err => console.log("put error back", err))
-        
-    :
+    if(ddress && location ) {
+        User.findByIdAndUpdate(id, {address, location}, {new:true})
+        .then(userUpdated => {
+            Product.updateMany({owner:userUpdated._id}, {location:location})
+            .then( () => res.json(userUpdated))
+        return res.json(userUpdated)
+        })
+        .catch(err => console.log("put error back", err))
+    }
 
     User.findByIdAndUpdate(id, {fullName, username, profileImg }, {new:true})
     .then(userUpdated => {
