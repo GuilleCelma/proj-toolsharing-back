@@ -12,7 +12,7 @@ router.get("/transaction", isAuthenticated, (req, res, next) =>{
     const currentUserId = req.payload._id
 
     Transaction.find( 
-        {$and: [
+        {$or: [
             {owner:currentUserId},
             {renter:currentUserId}
           ]
