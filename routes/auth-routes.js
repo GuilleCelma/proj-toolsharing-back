@@ -76,7 +76,6 @@ router.post("/google/signup", (req, res) => {
   const { username, password, email } = req.body;
   const salt = bcrypt.genSaltSync(saltRounds);
   const hashedPassword = bcrypt.hashSync(password, salt);
-  console.log("USER NOT FOUND");
   User.create({ email, username, password: hashedPassword })
     .then (res.status(200).json({ email: email }))
     .catch((err) => res.status(500).json({ message: "Internal Server Error" }));
@@ -90,16 +89,13 @@ router.post("/google", (req, res) => {
   User.find({ email: email })
     .then((foundUser) => {
     if (!foundUser[0]) {
-      console.log("USER NOT FOUND");
       // If the user is not found, send an error response
       User.create({ email, username, password: hashedPassword });
       return;
     }
-    console.log("USER FOUND");
     // Compare the provided password with the one saved in the database
     const passwordCorrect = bcrypt.compareSync(password, foundUser[0].password);
     if (passwordCorrect) {
-      console.log("PASSWORD CORRECT");
       // Deconstruct the user object to omit the password
       const { _id, username } = foundUser[0];
       // Create an object that will be set as the token payload
