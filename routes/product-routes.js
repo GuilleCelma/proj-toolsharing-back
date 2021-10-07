@@ -65,6 +65,13 @@ router.get("/product/:id", (req, res) => {
 //<-----------------ROUTE TO GET PRODUCTS BY CATEGORY-------------------------------------->
 
 router.get("/product/category/:category", (req, res) => {
+
+	res.header('Access-Control-Allow-Origin', '*');
+      res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+      );
+
 	let {category} = req.params;
 
 	Product.find ({category: category})
