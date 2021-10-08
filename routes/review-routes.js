@@ -24,12 +24,7 @@ router.get("/review/:id", (req, res) => {
 //<------------------???????????????????????????------------------------------->
 
 router.post("/review", (req,res,next)=>{
-
-    const {content, rating, productId} = req.body;
-
-    console.log( "he entrado en la ruta review")
-   
-    
+    const {content, rating, productId} = req.body;   
     Review.create({content, rating, product: productId})
 
         .then((newReview)=>{

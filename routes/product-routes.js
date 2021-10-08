@@ -28,32 +28,18 @@ router.post("/product", (req, res) => {
 	User.findById(owner)
 	.then(response => {
 		if( response.location.lat !== undefined){
-
-			console.log("si location in user", response.location)
-
 			defaultLocation.lat = response.location.lat
 			defaultLocation.lng = response.location.lng	
 		}
-
-
-		
 		Product.create({ name, description, amount, photo, owner, category,averageRating:averageRating, adquisitionYear, reviews: [], location: {lat:defaultLocation.lat, lng:defaultLocation.lng} })
 		  .then((response) => {
 			  User.findByIdAndUpdate(owner, { 
 				  $push:{products: response._id}
-				/* res.json(response) */
 			})
 			.then(user => res.json(user))
 		})
-	
-	
-			 /*  }
-		  ) */
-		  .catch((err) => res.json(err))});
-
-
+		.catch((err) => res.json(err))});
 	}
-
 	)
 
 
@@ -133,8 +119,6 @@ router.post("/product/filter", (req, res)=> {
 			{category: category}, 			
 			{name: { "$regex": `${nameSearch}`, "$options": "i" }},
 			{averageRating: {$lte:averageRating}}
-
-
 		]}
 		)
 		.sort({"averageRating" : -1 })

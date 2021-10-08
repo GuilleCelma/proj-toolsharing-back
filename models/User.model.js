@@ -18,7 +18,7 @@ const userSchema = new Schema({
   profileImg: {type: String, default: "https://w7.pngwing.com/pngs/858/581/png-transparent-profile-icon-user-computer-icons-system-chinese-wind-title-column-miscellaneous-service-logo.png"},
   products: [{
     type: Schema.Types.ObjectId,
-    ref: "Product"
+    ref: "Product",
   }],
   transactions:[{
     type: Schema.Types.ObjectId,

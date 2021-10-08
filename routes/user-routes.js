@@ -22,7 +22,9 @@ router.get( "/user/:id" , (req, res) =>{
     .populate ("products")
     .populate ("rentals")
     /* .populate ("favorites") */
-    .then(user => res.json(user))
+    .then(user => {
+        let foundUser = user
+        res.json(foundUser)})
     .catch(err => console.log(err))
 })
 
@@ -49,21 +51,26 @@ router.put( "/user/:id", (req,res) =>{
     const {fullName, username, address, profileImg, location } = req.body  
     
     if(address && location ) {
-        User.findByIdAndUpdate(id, {address, location}, {new:true})
-        .then(userUpdated => {
-            Product.updateMany({owner:userUpdated._id}, {location:location})
-            .then( () => res.json(userUpdated))
+        console.log("IF")
+        User
+        .findByIdAndUpdate(id, {address, location}, {new:true})
+            .then(userUpdated => {
+                Product
+                .updateMany({owner:userUpdated._id}, {location:location})
+                    .then( () => res.json(userUpdated))
+                    .catch(err => res.json(err))
         return res.json(userUpdated)
         })
-        .catch(err => console.log("put error back", err))
+        .catch(err => res.json(err))
+    } else {
+    console.log("ELSE")
+    User
+    .findByIdAndUpdate(id, {fullName, username, profileImg }, {new:true})
+        .then(userUpdated => {
+            res.json(userUpdated)
+         })
+    .catch(err => res.json(err))
     }
-
-    User.findByIdAndUpdate(id, {fullName, username, profileImg }, {new:true})
-    .then(userUpdated => {
-        res.json(userUpdated)
-        console.log("userupdatedback" , userUpdated) })
-    .catch(err => console.log("put error back", err))
-    
 })
 
 
