@@ -17,57 +17,55 @@ router.get("/product", (req, res) => {
 //<-----------------ROUTE TO CREATE A NEW PRODUCT-------------------------------------->
 
 router.post("/product", (req, res) => {
-	const { name, description, amount, photo, owner, category, adquisitionYear,  } = req.body;
+  const { name, description, amount, photo, owner, category, adquisitionYear } =
+    req.body;
+  let averageRating = 0;
+  let defaultLocation = {
+    lat: "0",
+    lng: "0",
+  };
+  User.findById(owner).then((response) => {
+    if (response.location.lat !== undefined) {
+      defaultLocation.lat = response.location.lat;
+      defaultLocation.lng = response.location.lng;
+    }
+    Product.create({
+      name,
+      description,
+      amount,
+      photo,
+      owner,
+      category,
+      averageRating: averageRating,
+      adquisitionYear,
+      reviews: [],
+      location: { lat: defaultLocation.lat, lng: defaultLocation.lng },
+    })
+      .then((response) => {
+        User.findByIdAndUpdate(owner, {
+          $push: { products: response._id },
+        }).then((user) => res.json(user));
+      })
+      .catch((err) => res.json(err));
+  });
+});
 
-	const averageRating = 0
-	
-	let defaultLocation={
-	lat:"0",
-	lng:"0"}
-
-	User.findById(owner)
-	.then(response => {
-		if( response.location.lat !== undefined){
-			defaultLocation.lat = response.location.lat
-			defaultLocation.lng = response.location.lng	
-		}
-		Product.create({ name, description, amount, photo, owner, category,averageRating:averageRating, adquisitionYear, reviews: [], location: {lat:defaultLocation.lat, lng:defaultLocation.lng} })
-		  .then((response) => {
-			  User.findByIdAndUpdate(owner, { 
-				  $push:{products: response._id}
-			})
-			.then(user => res.json(user))
-		})
-		.catch((err) => res.json(err))});
-	}
-	)
-
-
-/* }); */
-
-//<------------------RETRIEVES A ESPECIFIC PRODUCT BT ID------------------------------->
+//<------------------RETRIEVES A ESPECIFIC PRODUCT BY ID------------------------------->
 
 router.get("/product/:id", (req, res) => {
 	const { id } = req.params;
-
 	if (!mongoose.Types.ObjectId.isValid(id)) {
 	  res.status(400).json({ message: "Specified id is not valid" });
 	  return;
 	}
-  
-	// Each product document has `reviews` array holding `_id`s of Review documents
-	// We use .populate() method to get swap the `_id`s for the actual Review documents
-
 	Product.findById(id)
 	    .populate('reviews')
 	    .then((product) => {
-			console.log(product)
 			User.findById (product.owner)
 				.then ((user)=> {
 					res.status(200).json({product: product, user:user})
 				})
-				.catch ((error)=> { console.log("error: ",error)
-
+				.catch ((error)=> { res.json(error)
 				})
 	    .catch((error) => {
 			res.json(error)}
@@ -78,20 +76,10 @@ router.get("/product/:id", (req, res) => {
 //<-----------------ROUTE TO GET PRODUCTS BY CATEGORY-------------------------------------->
 
 router.get("/product/category/:category", (req, res) => {
-
-	res.header('Access-Control-Allow-Origin', '*');
-      res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-      );
-
 	let {category} = req.params;
-
 	Product.find ({category: category})
 		.then((productsByCategory) => {
 			res.json(productsByCategory)
-		/* 	console.log("productsByCategory: ", productsByCategory)} */
-		//	)
 		})
 		.catch((err) => res.json(err))
 })
@@ -99,7 +87,6 @@ router.get("/product/category/:category", (req, res) => {
 //<-----------------ROUTE TO GET PRODUCTS BY SEARCH-------------------------------------->
 
 router.get("/product/search/:searchData", (req, res) => {
-	console.log("search: ", req.params)
 	let {searchData} = req.params;
 
 	Product.find( { $or:[ {name: { "$regex": `${searchData}`, "$options": "i" }}, {description: { "$regex": `${searchData}`, "$options": "i" }}]} )
@@ -109,9 +96,9 @@ router.get("/product/search/:searchData", (req, res) => {
 		.catch((err) => res.json(err))
 })
 
+//<-----------------ROUTE TO GET FILTER PRODUCTS -------------------------------------->
+
 router.post("/product/filter", (req, res)=> {
-	console.log("/product/filter")
-	console.log("Req.body :", req.body)
 	const {amount, category, averageRating, nameSearch} = req.body
 	Product.find({ 
 		$and: [
@@ -131,18 +118,13 @@ router.post("/product/filter", (req, res)=> {
 
 router.put("/product/:productId", (req, res) => {
 	const { productId } = req.params;
-	console.log("Aquiiiiiiiiiii llega al back", productId)
 	const { name, description, amount, photo, category, adquisitionYear } = req.body;
-
-
 	if (!mongoose.Types.ObjectId.isValid(productId)) {
 	  res.status(400).json({ message: "Specified id is not valid" });
 	  return;
 	}
-  
 	Product.findByIdAndUpdate(productId, {name, description, amount, photo, category, adquisitionYear }, { new: true })
 	  .then((updatedProduct) => {
-		  console.log(updatedProduct);
 		  res.json(updatedProject)})
 	  .catch((error) => res.json(error));
   });
@@ -151,12 +133,10 @@ router.put("/product/:productId", (req, res) => {
 
 router.delete("/product/:productId", (req, res) => {
 	const { productId } = req.params;	
-
 	if (!mongoose.Types.ObjectId.isValid(productId)) {
 	  res.status(400).json({ message: "Specified id is not valid" });
 	  return;
 	}
-  
 	Product.findByIdAndRemove(productId)
 	  .then(() =>
 		res.json({

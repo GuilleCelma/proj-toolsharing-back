@@ -3,13 +3,10 @@ const router = express.Router();
 const Review = require("../models/Review.model");
 const Product = require("../models/Product.model");
 
-//<------------------RETRIEVES A ESPECIFIC REVIEW BT ID------------------------------->
+//<------------------RETRIEVES A ESPECIFIC REVIEW BY ID------------------------------->
 
 router.get("/review/:id", (req, res) => {
-    console.log("hey")
 	const { id } = req.params;
-    console.log ("/reviw: ", id ) 
-
     Review.findById(id)
 	    .populate('product')
         .populate('user')
@@ -21,48 +18,26 @@ router.get("/review/:id", (req, res) => {
 			);
 });
 
-//<------------------???????????????????????????------------------------------->
+//<------------------ROUTE TO POST A REVIEW --------------------------------------->
 
 router.post("/review", (req,res,next)=>{
-    const {content, rating, productId} = req.body;   
-    Review.create({content, rating, product: productId})
-
+    const {content, rating, productId, user} = req.body;   
+    Review.create({content, rating, product: productId, user})
         .then((newReview)=>{
             Product.findByIdAndUpdate(productId,{
                 $push:{reviews: newReview._id}
             }, {new:true})
             .then(reviewedProduct => {
-
                 let newAverageRating = (reviewedProduct.averageRating + rating) / (reviewedProduct.reviews.length)
-
                 Product.findByIdAndUpdate(productId,{
-                    $push:{averageRating: newAverageRating}
-                },{new:true})
-                .then(()=>{
-                    
-                    Product.findById(productId)
-                        .populate("reviews")
-                        .then(result => { 
-                            result.reviews.map(review =>{ oldRating.push(review.rating)
-                                
-                            })
-                            console.log("resultado reviews:")
-                
-                        });
-                })
+                    averageRating: newAverageRating}
+                ,{new:true})
+                .then(()=>{res.json("ok")   
             })
-            
-            
-            
             res.json(newReview)
         })
-        
         .catch((err) => res.json(err));
-    
-
-
-        })
-
-
+ })
+})
 
 module.exports = router;
