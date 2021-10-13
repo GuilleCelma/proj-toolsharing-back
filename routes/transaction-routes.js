@@ -56,7 +56,7 @@ router.post("/transaction", (req, res, next) => {
           { $push: { bookDates: excludedDays[i] } },
           { new: true }
         )
-          .then((response) => res.json(response))
+          .then((response) => console.log(response))
           .catch((err) => res.json(err));
       } return res.json (createdTransaction)
     })

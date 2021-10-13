@@ -89,8 +89,9 @@ router.post("/fav/:id", (req, res) => {
       } else {
         res.json("Already have this one");
       }
+      
     })
-    .then((result) => res.json(result));
+    .catch((err) => res.json(err))
 });
 
 //<-----------------ROUTE TO CHECK FAVORITES-------------------------------------------------------------------------------------------------------->
@@ -100,7 +101,7 @@ router.put("/fav/:id", (req, res) => {
   const { userId } = req.body;
   let favoriteArray = [];
   User.findById(userId).then((result) => {
-    let favoriteArray = result.data.favorites;
+    let favoriteArray = result.favorites;
   });
   let filteredArray = favoriteArray.filter((favorite) => {
     favorite !== id;
