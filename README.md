@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://github.com/yoelmartinfornieles/prj-toolsharing-back">
-    <img src="docs/images/tooly-logo.png" alt="Logo" width="100" height="100">
+    <img src="docs/images/tooly-logo.png" alt="Logo" width="300" height="100">
   </a>
 </h1>
 
@@ -52,7 +52,6 @@
 
 ## About
 
-> **[?]**
 > Tooly is a tool sharing plattform.
 > The idea is to rent the tools we got at home creating community, sharing resources, evading the consumism and reutilizing items.
 > We aim for plattform which allows us to do this all.
@@ -61,32 +60,27 @@
 <summary>Screenshots</summary>
 <br>
 
-> **[?]**
-> Please provide your screenshots here.
-
 |                               Home Page                               |                               Login Page                               |
 | :-------------------------------------------------------------------: | :--------------------------------------------------------------------: |
-| <img src="docs/images/screenshot.png" title="Home Page" width="100%"> | <img src="docs/images/screenshot.png" title="Login Page" width="100%"> |
+| <img src="docs/images/home.png" title="Home Page" width="100%"> | <img src="docs/images/login.png" title="Login Page" width="100%"> |
 
 </details>
 
 ### Built With
 
 > **[?]**
-> Nodejs, express, mongodb, mongoose, React, Hooks
+> Nodejs, express, mongodb, mongoose, React, Hooks, Nodemailer, GoogleMaps, PayPal, Talkjs
 
 ## Getting Started
 
 ### Installation
 
-> **[?]**
 > run npm i
 
 ## Usage
 
-> **[?]**
-> How does one go about using it?
-> Provide various use cases and code examples here.
+> As this is the server, please run the following command: nodemon server.js
+> Don't forget the required .env file
 
 ## Roadmap
 
@@ -143,8 +137,3 @@ This project is licensed under the **MIT license**.
 
 See [LICENSE](LICENSE) for more information.
 
-## Acknowledgements
-
-> **[?]**
-> If your work was funded by any organization or institution, acknowledge their support here.
-> In addition, if your work relies on other software libraries, or was inspired by looking at other work, it is appropriate to acknowledge this intellectual debt too.
