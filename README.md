@@ -24,11 +24,11 @@
 
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=flat-square)](https://github.com/yoelmartinfornieles/prj-toolsharing-back/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 
-[![code with hearth by Espe Cabrer](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-yoelmartinfornieles-ff1414.svg?style=flat-square)](https://github.com/especabrer)
+[![code with hearth by Espe Cabrer](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-especabrer-ff1414.svg?style=flat-square)](https://github.com/especabrer)
 
-[![code with hearth by Jordi Davesa](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-yoelmartinfornieles-ff1414.svg?style=flat-square)](https://github.com/jdavesa)
+[![code with hearth by Jordi Davesa](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-jdavesa-ff1414.svg?style=flat-square)](https://github.com/jdavesa)
 
-[![code with hearth by Guille Celma](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-yoelmartinfornieles-ff1414.svg?style=flat-square)](https://github.com/GuilleCelma)
+[![code with hearth by Guille Celma](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-guillecelma-ff1414.svg?style=flat-square)](https://github.com/GuilleCelma)
 
 [![code with hearth by Yoel Martin Fornieles](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-yoelmartinfornieles-ff1414.svg?style=flat-square)](https://github.com/yoelmartinfornieles)
 
@@ -58,7 +58,7 @@
 
 ## About
 
-> Because a image is worth a thousend words, try the demo here: https://prj-toolsharing-front.herokuapp.com/
+> Because an image is worth a thousend words, try the demo here: https://prj-toolsharing-front.herokuapp.com/
 
 > Tooly is a tool sharing plattform.
 > The idea is to rent the tools we got at home creating community, sharing resources, evading the consumism and reutilizing items.
@@ -72,17 +72,17 @@
 | :-------------------------------------------------------------------: | :--------------------------------------------------------------------: |
 | <img src="docs/images/home.png" title="Home Page" width="100%"> | <img src="docs/images/login.png" title="Login Page" width="100%"> |
 
-|                               Product List                               |                               Profile Page                               |
+|                               Product List                               |                               Product Details                               |
 | :-------------------------------------------------------------------: | :--------------------------------------------------------------------: |
-| <img src="docs/images/product list.png" title="Product List" width="100%"> | <img src="docs/images/profile.png" title="Profile Page" width="100%"> |
+| <img src="docs/images/product list.png" title="Product List" width="100%"> | <img src="docs/images/prduct details.png" title="Product Details" width="100%"> |
 
-|                               Date selector                               |                               Payment                               |
+|                               Profile Page                               |                               Date selector                                |
 | :-------------------------------------------------------------------: | :--------------------------------------------------------------------: |
-| <img src="docs/images/calendar.png" title="Date selector" width="100%"> | <img src="docs/images/booking.png" title="Login Page" width="100%"> |
+| <img src="docs/images/profile.png" title="Profile Page" width="100%"> | <img src="docs/images/calendar.png" title="Date selector" width="100%"> |
 
-|                               Chat                               | 
-| :-------------------------------------------------------------------: | 
-| <img src="docs/images/chat.png" title="Chat" width="100%"> | 
+|                               Payment                              |                               Chat                               |
+| :-------------------------------------------------------------------: | :--------------------------------------------------------------------: |
+| <img src="docs/images/booking.png" title="Payment" width="100%"> | <img src="docs/images/chat.png" title="Chat" width="100%"> |
 
 </details>
 
