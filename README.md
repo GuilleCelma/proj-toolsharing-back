@@ -58,7 +58,7 @@
 
 ## About
 
-> Because an image is worth a thousend words, try the demo here: https://prj-toolsharing-front.herokuapp.com/
+> Because an image is worth a thousand words, try the demo here: https://prj-toolsharing-front.herokuapp.com/
 
 > Tooly is a tool sharing plattform.
 > The idea is to rent the tools we got at home creating community, sharing resources, evading the consumism and reutilizing items.
